@@ -1,6 +1,6 @@
 # X Server Node.js Client
 
-[![Build Status](https://travis-ci.com/boxpositron/xserver-node-client.svg?branch=master)](https://travis-ci.com/boxpositron/xserver-node-client)
+[![Build Status](https://travis-ci.org/boxpositron/xserver-node-client.svg?branch=master)](https://travis-ci.org/boxpositron/xserver-node-client)
 
 
 Node Client Wrapper for X Serial Server

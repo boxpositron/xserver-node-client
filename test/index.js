@@ -1,8 +1,8 @@
+require('dotenv').config();
 const assert = require('assert');
 const XServerClient = require('../');
 
-const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9kdWN0SGFzaCI6IjhDUm5aNnZFOCIsInRva2VuIjoiYjgxZThkMWEtZmMwMC00ZjFmLTkyNjktMzFhYmIzZjNmMjhlIiwiYXVkIjoiaHR0cHM6Ly94c2VydmVyLmJveG1hcnNoYWxsLmNvbSIsImlzcyI6IkJveG1hcnNoYWxsIFNlcnZpY2VzIiwic3ViIjoiZGF2aWQuaWJpYUBib3htYXJzaGFsbC5jb20ifQ.Z3RAsqyQBwYRabKvUW3_riiSHRlk3xICO58ZwBtrpbky6DXFd7ld2gaRgPJb_A2J_MW8ucLtL08mQ5QCQnU4gDud14uwtIU0cJZv6Sr2ikULc31KOgr5Tm-yh9n7zpDZlV7-Yj0oHaUsBWaZhC1KGdJLP2WDfYrDlVvgkF4gSodAGkcIGWMbPhu2HVwCF2OPeuwPsdI3vyiVDsnyb0oqQ1trsZnz5yj62zxcJU0fG06MTJ1NEv6wzJ7tZL46JNY2jbWi0INdbTn9SVCL5ZBsXEXeFteD_GNc2KNXr8hvPpB615DIwu20PH2ZDKLul6kTcb29q64z5HcI3JAVYvecFw';
-const xserverClient = new XServerClient(token)
+const xserverClient = new XServerClient(process.env.XSERVER_TOKEN)
 
 describe('License Service Test', () => {
 
