@@ -8,8 +8,8 @@ cache:
     - node_modules
 
 install:
-   - yarn install
+  - yarn install
 
 script:
-   - yarn test
+  - yarn test
   
