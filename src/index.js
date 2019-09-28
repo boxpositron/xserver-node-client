@@ -250,9 +250,7 @@ class XServerClient {
         })
     }
 
-
-
-    createKey(context) {
+    createEternalKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
 
@@ -261,7 +259,8 @@ class XServerClient {
                     tierHash,
                     familyName,
                     givenName,
-                    days
+                    days,
+                    meta
                 } = context
 
                 const options = {
@@ -277,7 +276,116 @@ class XServerClient {
                         tierHash,
                         familyName,
                         givenName,
-                        days
+                        days,
+                        meta,
+                        eternal: true
+                    }
+                }
+
+                const response = await rp(options);
+
+                resolve(response)
+
+            } catch (e) {
+                reject(new ServiceError(e.message))
+            }
+        })
+    }
+
+    updateMeta(context) {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const {
+                    serialkey,
+                    meta
+                } = context
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/update-meta`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body: {
+                        meta,
+                        serialkey
+                    }
+                }
+
+                const response = await rp(options);
+
+                resolve(response)
+
+            } catch (e) {
+                reject(new ServiceError(e.message))
+            }
+        })
+    }
+
+    banKey(context) {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const {
+                    serialkey,
+                    state
+                } = context
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/ban`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body: {
+                        serialkey,
+                        state
+                    }
+                }
+
+                const response = await rp(options);
+
+                resolve(response)
+
+            } catch (e) {
+                reject(new ServiceError(e.message))
+            }
+        })
+    }
+
+    createKey(context) {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const {
+                    email,
+                    tierHash,
+                    familyName,
+                    givenName,
+                    days,
+                    meta
+                } = context
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/create`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body: {
+                        email,
+                        tierHash,
+                        familyName,
+                        givenName,
+                        days,
+                        meta
                     }
                 }
 
