@@ -1,7 +1,7 @@
 language: node_js
 node_js: '10'
 install:
-   — yarn install
+   — yarn run install
 
 script:
-   — yarn test
+   — yarn run test
