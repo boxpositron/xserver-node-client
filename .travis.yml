@@ -1,7 +1,15 @@
+sudo: true
 language: node_js
 node_js: '10'
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
 install:
-   — yarn run install
+   - yarn install
 
 script:
-   — yarn run test
+   - yarn test
+  
