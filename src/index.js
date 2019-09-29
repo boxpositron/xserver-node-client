@@ -167,7 +167,7 @@ class XServerClient {
                 const {
                     discord,
                     serialkey,
-                    days
+                    email
                 } = context;
 
                 const options = {
@@ -179,7 +179,7 @@ class XServerClient {
                     body: {
                         discord,
                         serialkey,
-                        days
+                        email
                     },
                     json: true,
                     timeout: 15000
