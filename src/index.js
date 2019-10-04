@@ -44,6 +44,29 @@ class XServerClient {
         })
     }
 
+    dumpKeys() {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/dump`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000
+                }
+
+                const response = await rp(options);
+                resolve(response);
+
+            } catch (e) {
+                reject(new ServiceError(e.message))
+            }
+        })
+    }
+
     queryKey(serialkey) {
         return new Promise(async (resolve, reject) => {
             try {
