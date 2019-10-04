@@ -58,6 +58,16 @@ describe('License Service Test', () => {
             }
         }).timeout(20000)
 
+        it('should be able to list all the keys a product has', async ()=>{
+            try{
+                const response = await xserverClient.dumpKeys();
+                assert(response.status == 'success', 'Unable to dump product keys')
+
+            } catch (e){
+                assert.fail(e.message)
+            }
+        }).timeout(20000)
+
         it('should be able to list all the keys the user has', async () => {
             try {
 
