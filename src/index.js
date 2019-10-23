@@ -17,6 +17,10 @@ class ServiceError extends Error {
 }
 
 class XServerClient {
+    /**
+     * 
+     * @param {string} apiKey - Your generated xserver api key
+     */
     constructor(apiKey) {
         this.apiKey = apiKey;
     }
@@ -44,6 +48,9 @@ class XServerClient {
         })
     }
 
+    /**
+     * Return all generated license keys
+     */
     dumpKeys() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -67,6 +74,10 @@ class XServerClient {
         })
     }
 
+    /**
+     * Query license key
+     * @param {string} serialkey - License key
+     */
     queryKey(serialkey) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -92,6 +103,12 @@ class XServerClient {
         })
     }
 
+    /**
+     * Extend the days alloted to a license key
+     * @param {Object} context 
+     * @param {string} context.serialkey - License key
+     * @param {number} context.days - Days to extend
+     */
     extendKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -124,7 +141,12 @@ class XServerClient {
         })
     }
 
-
+    /**
+     * Reset the specified license key
+     * @param {Object} context 
+     * @param {string} context.serialkey - License key
+     * @param {string} context.email - License email address
+     */
     resetKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -157,6 +179,10 @@ class XServerClient {
         })
     }
 
+    /**
+     * List license keys attached to a specified email address
+     * @param {string} email - Query email address
+     */
     listKeys(email) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -183,6 +209,22 @@ class XServerClient {
         })
     }
 
+    /**
+     * Attached discord credentials to a license key
+     * @param {Object} context 
+     * @param {string} context.email - License email
+     * @param {string} context.serialkey - License key
+     * @param {Object} context.discord
+     * @param {string} context.discord.id - Discord id
+     * @param {string} context.discord.username - Discord username
+     * @param {string} context.discord.discriminator - Discord discriminator
+     * @param {string} context.discord.avatar - Discord avatar
+     * @param {string} context.discord.isBot - Discord isBot flag
+     * @param {string} context.discord.nitro - Discord nitro flag
+     * @param {string} context.discord.email - Discord email
+     * @param {string} context.discord.emailVerified - Discord email verified flag
+     * 
+     */
     bindDiscord(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -218,13 +260,17 @@ class XServerClient {
         })
     }
 
+    /**
+     * Remove discord credentials from a license key
+     * @param {Object} context 
+     * @param {string} context.serialkey - License key
+     */
     unbindDiscord(context) {
         return new Promise(async (resolve, reject) => {
             try {
 
                 const {
                     serialkey,
-                    days
                 } = context;
 
                 const options = {
@@ -250,6 +296,9 @@ class XServerClient {
         })
     }
 
+    /**
+     * List available tiers
+     */
     listTiers() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -273,6 +322,16 @@ class XServerClient {
         })
     }
 
+    /**
+     * Create an eternal license key
+     * @param {Object} context 
+     * @param {string} context.email - License email
+     * @param {string} context.tierHash - Plan tier hash
+     * @param {string} context.familyName - Owner family name
+     * @param {string} context.givenName - Owner given name
+     * @param {number} context.days [0] - Active days
+     * @param {Object[]} context.meta - Attached meta information
+     */
     createEternalKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -282,7 +341,7 @@ class XServerClient {
                     tierHash,
                     familyName,
                     givenName,
-                    days,
+                    days = 0,
                     meta
                 } = context
 
@@ -315,6 +374,12 @@ class XServerClient {
         })
     }
 
+    /**
+     * Update attached meta information
+     * @param {Object} context 
+     * @param {string} context.serialkey - License key
+     * @param {Object[]} context.meta - Attached meta information
+     */
     updateMeta(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -348,6 +413,12 @@ class XServerClient {
         })
     }
 
+    /**
+     * Ban license key
+     * @param {Object} context 
+     * @param {string} context.serialkey - License key
+     * @param {boolean} context.state [true] - Ban state
+     */
     banKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -381,6 +452,16 @@ class XServerClient {
         })
     }
 
+    /**
+     * Create license key
+     * @param {Object} context 
+     * @param {string} context.email - License email
+     * @param {string} context.tierHash - Plan tier hash
+     * @param {string} context.familyName - Owner family name
+     * @param {string} context.givenName - Owner given name
+     * @param {number} context.days [1] - Active duration
+     * @param {Object[]} context.meta - Attached meta information
+     */
     createKey(context) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -390,7 +471,7 @@ class XServerClient {
                     tierHash,
                     familyName,
                     givenName,
-                    days,
+                    days = 1,
                     meta
                 } = context
 
