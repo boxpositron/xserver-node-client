@@ -264,6 +264,7 @@ class XServerClient {
      * Remove discord credentials from a license key
      * @param {Object} context 
      * @param {string} context.serialkey - License key
+     * @param {string} context.email - Purchase email
      */
     unbindDiscord(context) {
         return new Promise(async (resolve, reject) => {
@@ -271,6 +272,7 @@ class XServerClient {
 
                 const {
                     serialkey,
+                    email
                 } = context;
 
                 const options = {
@@ -281,7 +283,7 @@ class XServerClient {
                     method: 'POST',
                     body: {
                         serialkey,
-                        days
+                        email
                     },
                     json: true,
                     timeout: 15000
