@@ -25,7 +25,13 @@ describe('License Service Test', () => {
             email: 'John.Doe@example.com',
             familyName: 'Doe',
             givenName: 'John',
-        }
+        };
+
+        const newUser = {
+            email: 'Jane.Doe@example.com',
+            familyName: 'Doe',
+            givenName: 'Jane'
+        };
 
         it('should be able to fetch tier list', async () => {
             try {
@@ -58,12 +64,12 @@ describe('License Service Test', () => {
             }
         }).timeout(20000)
 
-        it('should be able to list all the keys a product has', async ()=>{
-            try{
+        it('should be able to list all the keys a product has', async () => {
+            try {
                 const response = await xserverClient.dumpKeys();
                 assert(response.status == 'success', 'Unable to dump product keys')
 
-            } catch (e){
+            } catch (e) {
                 assert.fail(e.message)
             }
         }).timeout(20000)
@@ -110,13 +116,47 @@ describe('License Service Test', () => {
                     days: 1
                 });
 
-                
+
                 assert(response.status == 'success', 'Unable to extend license Key')
 
             } catch (e) {
                 assert.fail(e.message);
             }
-        })
+        }).timeout(20000)
+
+        it('should be able to securely change purchase email', async () => {
+            try {
+
+                assert(keys.length > 0, 'No keys to test');
+                const serialkey = keys[Math.floor(Math.random() * keys.length)];
+                const res = await xserverClient.queryKey(serialkey);
+                const email = res.result.email;
+                const {
+                    token
+                } = await xserverClient.beginTransfer({
+                    email,
+                    serialkey
+                });
+
+                const {
+                    givenName,
+                    familyName
+                } = newUser;
+
+                const response = await xserverClient.confirmTransfer({
+                    email: newUser.email,
+                    transferCode: token,
+                    serialkey,
+                    givenName,
+                    familyName
+                })
+
+                assert(response.status == 'success', 'Unable to tranfer license key')
+
+            } catch (e) {
+                assert.fail(e.message);
+            }
+        }).timeout(20000)
     })
 
 
