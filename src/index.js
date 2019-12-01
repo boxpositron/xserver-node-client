@@ -504,6 +504,91 @@ class XServerClient {
             }
         })
     }
+
+    /**
+     * Transfer serial key to new purchase email
+     * @param {object} context Purchase email transfer payload
+     * @param {string} context.email Purchase email being transferred from
+     * @param {string} context.serialkey Serial key up for transfer
+     */
+    beginTransfer(context) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const {
+                    email,
+                    serialkey
+                } = context;
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/begintransfer`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body: {
+                        serialkey,
+                        email
+                    }
+                }
+
+                const response = await rp(options);
+
+                return resolve(response);
+
+            } catch (e) {
+                return reject(e)
+            }
+        })
+    }
+
+    /**
+     * Complete purchase email transfer for serial key
+     * @param {object} context Transfer confirmation payload
+     * @param {string} context.email Email address being transferred to
+     * @param {string} context.transferCode Authorization code for transfer
+     * @param {string} context.serialkey Serial key up for transfer
+     * @param {string} context.givenName Target givenName
+     * @param {string} context.familyName Target familyName
+     */
+    confirmTransfer(context) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const {
+                    email,
+                    givenName,
+                    familyName,
+                    serialkey,
+                    transferCode
+                } = context;
+
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/manage/confirmtransfer`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body: {
+                        givenName,
+                        familyName,
+                        email,
+                        serialkey,
+                        transferCode
+                    }
+                }
+
+                const response = await rp(options);
+
+                return resolve(response);
+
+            } catch (e) {
+                return reject(e)
+            }
+        })
+    }
 }
 
 
