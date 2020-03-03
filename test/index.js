@@ -1,6 +1,8 @@
 require('dotenv').config();
 const assert = require('assert');
-const XServerClient = require('../');
+const {
+    XServerClient
+} = require('../');
 
 const xserverClient = new XServerClient(process.env.XSERVER_TOKEN)
 
