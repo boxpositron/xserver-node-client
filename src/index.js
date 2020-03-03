@@ -16,6 +16,38 @@ class ServiceError extends Error {
     }
 }
 
+class XServerManager{
+    constructor(apiKey){
+        this.apiKey = apiKey;
+    }
+
+    getID(params){
+        return new Promise(async (resolve, reject)=>{
+            try{
+                const options = {
+                    headers: {
+                        Authorization: `Bearer ${this.apiKey}`
+                    },
+                    url: `${BASE_URL}/v2/ping-base/get-id`,
+                    method: 'POST',
+                    json: true,
+                    timeout: 15000,
+                    body:{
+                        ...params
+                    }
+                }
+
+
+                const response = await rp(options);
+                resolve(response);
+
+            } catch (e){
+                reject(e);
+            }
+        })
+    }
+}
+
 class XServerClient {
     /**
      * 
@@ -593,4 +625,7 @@ class XServerClient {
 
 
 
-module.exports = XServerClient
+module.exports = {
+    XServerClient,
+    XServerManager
+}
