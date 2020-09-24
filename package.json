@@ -9,14 +9,13 @@
   "private": false,
   "dependencies": {
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.7",
-    "yargs-parser": ">=13.1.2"
+    "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
     "dotenv": "^8.1.0",
     "jsdoc": "^3.6.3",
     "jsdoc-to-markdown": "^5.0.3",
-    "mocha": "^6.2.0"
+    "mocha": "^6.2.3"
   },
   "scripts": {
     "test": "mocha",
