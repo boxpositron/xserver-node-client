@@ -1,4 +1,4 @@
-const rp = require('request-promise-native')
+const Axios = require('axios').default
 
 const { ValidationError, ServiceError, ManagerError } = require('./errors')
 
@@ -7,26 +7,28 @@ const BASE_URL = 'https://licenses.railgunsecurity.com/api'
 class XServerManager {
   constructor(apiKey) {
     this.apiKey = apiKey
+    this.session = Axios.create({
+      headers: {
+        authorization: `Bearer ${this.apiKey}`
+      },
+      baseURL: BASE_URL
+    })
   }
 
   getID(params) {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/v2/ping-base/get-id`,
+          url: `v2/ping-base/get-id`,
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             ...params
           }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ManagerError(e.response.body.error))
@@ -45,23 +47,24 @@ class XServerClient {
    */
   constructor(apiKey) {
     this.apiKey = apiKey
+    this.session = Axios.create({
+      headers: {
+        authorization: `Bearer ${this.apiKey}`
+      },
+      baseURL: BASE_URL
+    })
   }
 
   testConnection() {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/`,
-          method: 'GET',
-          json: true,
-          timeout: 15000
+          url: '',
+          method: 'GET'
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ValidationError(e.response.body.error))
@@ -79,17 +82,12 @@ class XServerClient {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/dump`,
-          method: 'POST',
-          json: true,
-          timeout: 15000
+          url: 'manage/dump',
+          method: 'POST'
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -112,20 +110,15 @@ class XServerClient {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/query`,
+          url: 'manage/query',
           method: 'POST',
-          json: true,
-          body: {
+          data: {
             serialkey
-          },
-          timeout: 15000
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -148,21 +141,16 @@ class XServerClient {
         const { serialkey, days } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/extend`,
+          url: 'manage/extend',
           method: 'POST',
-          body: {
+          data: {
             serialkey,
             days
-          },
-          json: true,
-          timeout: 15000
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -185,21 +173,16 @@ class XServerClient {
         const { serialkey, email } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/reset`,
+          url: 'manage/reset',
           method: 'POST',
-          body: {
+          data: {
             serialkey,
             email
-          },
-          json: true,
-          timeout: 15000
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -218,20 +201,15 @@ class XServerClient {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/list`,
+          url: 'manage/list',
           method: 'POST',
-          body: {
+          data: {
             email
-          },
-          timeout: 15000,
-          json: true
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -264,22 +242,17 @@ class XServerClient {
         const { discord, serialkey, email } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/setup-discord`,
+          url: 'manage/setup-discord',
           method: 'POST',
-          body: {
+          data: {
             discord,
             serialkey,
             email
-          },
-          json: true,
-          timeout: 15000
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -302,21 +275,16 @@ class XServerClient {
         const { serialkey, email } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/remove-discord`,
+          url: 'manage/remove-discord',
           method: 'POST',
-          body: {
+          data: {
             serialkey,
             email
-          },
-          json: true,
-          timeout: 15000
+          }
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -334,17 +302,12 @@ class XServerClient {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/list-tiers`,
-          method: 'GET',
-          json: true,
-          timeout: 15000
+          url: 'manage/list-tiers',
+          method: 'GET'
         }
 
-        const response = await rp(options)
-        resolve(response)
+        const { data } = await this.session(options)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -378,14 +341,10 @@ class XServerClient {
         } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/create`,
+          url: 'manage/create',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+
+          data: {
             email,
             tierHash,
             familyName,
@@ -396,9 +355,9 @@ class XServerClient {
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        resolve(response)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -421,22 +380,17 @@ class XServerClient {
         const { serialkey, meta } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/update-meta`,
+          url: 'manage/update-meta',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             meta,
             serialkey
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        resolve(response)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -459,22 +413,17 @@ class XServerClient {
         const { serialkey, state } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/ban`,
+          url: 'manage/ban',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             serialkey,
             state
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        resolve(response)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -508,14 +457,9 @@ class XServerClient {
         } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/create`,
+          url: 'manage/create',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             email,
             tierHash,
             familyName,
@@ -525,9 +469,9 @@ class XServerClient {
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        resolve(response)
+        resolve(data)
       } catch (e) {
         if (e.response) {
           return reject(new ServiceError(e.response.body.error))
@@ -550,22 +494,17 @@ class XServerClient {
         const { email, serialkey } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/begintransfer`,
+          url: 'manage/begintransfer',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             serialkey,
             email
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        return resolve(response)
+        return resolve(data)
       } catch (e) {
         return reject(e)
       }
@@ -593,14 +532,9 @@ class XServerClient {
         } = context
 
         const options = {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`
-          },
-          url: `${BASE_URL}/manage/confirmtransfer`,
+          url: 'manage/confirmtransfer',
           method: 'POST',
-          json: true,
-          timeout: 15000,
-          body: {
+          data: {
             givenName,
             familyName,
             email,
@@ -609,9 +543,9 @@ class XServerClient {
           }
         }
 
-        const response = await rp(options)
+        const { data } = await this.session(options)
 
-        return resolve(response)
+        return resolve(data)
       } catch (e) {
         return reject(e)
       }
