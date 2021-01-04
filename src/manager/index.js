@@ -64,14 +64,14 @@ class XServerManager {
     })
   }
 
-  getID(params) {
+  getID({ accessToken }) {
     return new Promise(async (resolve, reject) => {
       try {
         const options = {
           url: `v2/ping-base/get-id`,
           method: 'POST',
           data: {
-            ...params
+            accessToken
           }
         }
 
