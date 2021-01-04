@@ -93,7 +93,7 @@ class XServerAgent {
     return new Promise(async (resolve, reject) => {
       try {
         const { secKey, socket } = await this.validate()
-        const encoder = new SafeEncode({ secKey })
+        const encoder = new SafeEncode(secKey)
         const sid = uuid()
 
         const solution = {
