@@ -47,19 +47,13 @@ class XServerManager {
 
         resolve(token)
       } catch (e) {
-        let message
-
-        if (e.statusCode >= 500) {
-          if (e.response && e.response.body) {
-            if (!e.response.body.success) {
-              message = e.response.body.error
-            }
-          } else {
-            message = e
+        if (e.response) {
+          if (e.response.status >= 500) {
+            return reject(new Error(e.response.data.error || e.message))
           }
         }
 
-        reject(message ? new Error(message) : e)
+        reject(e)
       }
     })
   }
@@ -80,7 +74,7 @@ class XServerManager {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ManagerError(e.response.body.error))
+          return reject(new ManagerError(e.response.data.error || e.message))
         }
 
         reject(new ManagerError(e.message))

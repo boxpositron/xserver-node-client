@@ -31,7 +31,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ValidationError(e.response.body.error))
+          return reject(new ValidationError(e.response.data.error || e.message))
         }
 
         reject(new ValidationError(e.message))
@@ -54,11 +54,11 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -85,7 +85,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -117,7 +117,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -149,7 +149,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -176,7 +176,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -219,7 +219,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -251,7 +251,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -274,7 +274,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -324,7 +324,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -357,7 +357,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -390,7 +390,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
@@ -438,7 +438,7 @@ class XServerClient {
         resolve(data)
       } catch (e) {
         if (e.response) {
-          return reject(new ServiceError(e.response.body.error))
+          return reject(new ServiceError(e.response.data.error || e.message))
         }
 
         reject(new ServiceError(e.message))
