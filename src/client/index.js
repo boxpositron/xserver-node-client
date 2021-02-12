@@ -9,13 +9,13 @@ class XServerClient {
    *
    * @param {string} apiKey - Your generated xserver api key
    */
-  constructor(apiKey) {
+  constructor(apiKey, baseUrl = null) {
     this.apiKey = apiKey
     this.session = Axios.create({
       headers: {
         authorization: `Bearer ${this.apiKey}`
       },
-      baseURL: BASE_URL
+      baseURL: baseUrl ? baseUrl : BASE_URL
     })
   }
 
