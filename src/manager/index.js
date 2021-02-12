@@ -5,13 +5,13 @@ const { SafeEncode } = require('../safe-encode')
 const BASE_URL = 'https://licenses.railgunsecurity.com/api'
 
 class XServerManager {
-  constructor(apiKey) {
+  constructor(apiKey, baseUrl = null) {
     this.apiKey = apiKey
     this.session = Axios.create({
       headers: {
         authorization: `Bearer ${this.apiKey}`
       },
-      baseURL: BASE_URL
+      baseURL: baseUrl ? baseUrl : BASE_URL
     })
   }
 
@@ -77,6 +77,26 @@ class XServerManager {
           return reject(new ManagerError(e.response.data.error || e.message))
         }
 
+        reject(new ManagerError(e.message))
+      }
+    })
+  }
+
+  validateCat({ cat }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const options = {
+          url: `v2/ping-base/validate-cat`,
+          method: 'POST',
+          data: {
+            cat
+          }
+        }
+
+        const { data } = await this.session(options)
+
+        resolve(data)
+      } catch (e) {
         reject(new ManagerError(e.message))
       }
     })
