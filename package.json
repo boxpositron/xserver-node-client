@@ -1,6 +1,6 @@
 {
   "name": "xserver-node-client",
-  "version": "1.1.2-2",
+  "version": "1.1.2-3",
   "description": "API Wrapper for X Server License Service",
   "main": "index.js",
   "repository": "https://github.com/boxpositron/xserver-node-client",
