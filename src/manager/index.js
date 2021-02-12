@@ -47,13 +47,15 @@ class XServerManager {
 
         resolve(token)
       } catch (e) {
-        if (e.response) {
-          if (e.response.status >= 500) {
-            return reject(new Error(e.response.data.error || e.message))
-          }
+        if (e.request) {
+          return reject(new ManagerError(e.request.data.error || e.message))
         }
 
-        reject(e)
+        if (e.response) {
+          return reject(new ManagerError(e.response.data.error || e.message))
+        }
+
+        reject(new ManagerError(e.message))
       }
     })
   }
@@ -73,6 +75,10 @@ class XServerManager {
 
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ManagerError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ManagerError(e.response.data.error || e.message))
         }
@@ -97,7 +103,15 @@ class XServerManager {
 
         resolve(data)
       } catch (e) {
-        reject(new ManagerError(e.message))
+        if (e.response) {
+          return reject(new ManagerError(e.response.data.error || e.message))
+        }
+
+        if (e.response) {
+          return reject(new ManagerError(e.response.data.error || e.message))
+        }
+
+        return reject(new ManagerError(e.message))
       }
     })
   }
