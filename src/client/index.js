@@ -30,6 +30,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ValidationError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ValidationError(e.response.data.error || e.message))
         }
@@ -53,8 +57,8 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
-        if (e.response) {
-          return reject(new ServiceError(e.response.data.error || e.message))
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
         }
 
         if (e.response) {
@@ -84,6 +88,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -116,6 +124,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -148,6 +160,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -218,6 +234,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -250,6 +270,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -273,6 +297,10 @@ class XServerClient {
         const { data } = await this.session(options)
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -323,6 +351,10 @@ class XServerClient {
 
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -356,6 +388,10 @@ class XServerClient {
 
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -389,6 +425,10 @@ class XServerClient {
 
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -437,6 +477,10 @@ class XServerClient {
 
         resolve(data)
       } catch (e) {
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
         if (e.response) {
           return reject(new ServiceError(e.response.data.error || e.message))
         }
@@ -470,7 +514,15 @@ class XServerClient {
 
         return resolve(data)
       } catch (e) {
-        return reject(e)
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
+        if (e.response) {
+          return reject(new ServiceError(e.response.data.error || e.message))
+        }
+
+        reject(new ServiceError(e.message))
       }
     })
   }
@@ -511,7 +563,15 @@ class XServerClient {
 
         return resolve(data)
       } catch (e) {
-        return reject(e)
+        if (e.request) {
+          return reject(new ServiceError(e.request.data.error || e.message))
+        }
+
+        if (e.response) {
+          return reject(new ServiceError(e.response.data.error || e.message))
+        }
+
+        reject(new ServiceError(e.message))
       }
     })
   }
