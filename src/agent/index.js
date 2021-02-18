@@ -15,7 +15,7 @@ class XServerAgent extends Events {
     machineToken,
     timeout = 120 * 1000
   }) {
-    super(events)
+    super()
     this.setMaxListeners(0)
 
     this.url = url
