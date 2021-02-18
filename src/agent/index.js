@@ -1,11 +1,12 @@
 const uuid = require('uuid').v4
+const Events = require('events')
 const SocketIO = require('socket.io-client')
 
 const { SafeEncode } = require('../safe-encode')
 
 const { AgentConnectionFailure } = require('../errors')
 
-class XServerAgent {
+class XServerAgent extends Events {
   constructor({
     accessToken,
     seed,
@@ -14,6 +15,9 @@ class XServerAgent {
     machineToken,
     timeout = 120 * 1000
   }) {
+    super(events)
+    this.setMaxListeners(0)
+
     this.url = url
     this.path = path
     this.seed = seed
@@ -78,7 +82,11 @@ class XServerAgent {
 
           socket.on('bridge-sync-error', () => {
             socket.close()
-            reject(new AgentConnectionFailure('Bridge connection failed'))
+
+            this.emit(
+              'deauth',
+              new AgentConnectionFailure('Bridge connection failed')
+            )
           })
 
           socket.on('resync', () => socket.emit('sync', synKey))
